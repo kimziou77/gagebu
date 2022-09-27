@@ -1,0 +1,20 @@
+security:
+  patterns:
+    ignoring:
+      ALL:
+        - /static/**
+        - /favicon.ico
+        - /h2-console/**
+    permit-all:
+      ALL:
+        - /
+        - /api/**/auth/**
+      GET: [ ]
+      POST:
+        - /api/**/users
+
+jwt:
+  issuer: gagebu
+  secret-key: ${JWT_SECRET_KEY}
+  access-token:
+    expire-length: 1_800_000 # 30분
