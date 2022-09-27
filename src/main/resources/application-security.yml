@@ -1,0 +1,29 @@
+security:
+  patterns:
+    ignoring:
+      ALL:
+        - /
+        - /static/**
+        - /h2-console/**
+        - /api/**/auth/**
+        - /api/**/users
+    permit-all:
+      ALL:
+        - /
+      GET: [ ]
+      POST: [ ]
+
+cors:
+  allowed:
+    api: /**
+    method: '*'
+    origin:
+      - http://localhost:3000
+      - http://localhost:8080
+
+jwt:
+  issuer: gagebu
+  secret-key: ${JWT_SECRET_KEY}
+  access-token:
+    expire-length: 1_800_000 # 30분
+
