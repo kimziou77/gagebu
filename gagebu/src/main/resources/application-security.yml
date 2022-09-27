@@ -5,14 +5,13 @@ security:
         - /static/**
         - /favicon.ico
         - /h2-console/**
+        - /api/**/auth/**
+        - /api/**/users
     permit-all:
       ALL:
         - /
-        - /api/**/auth/**
       GET: [ ]
-      POST:
-        - /api/**/users
-
+      POST: [ ]
 jwt:
   issuer: gagebu
   secret-key: ${JWT_SECRET_KEY}
