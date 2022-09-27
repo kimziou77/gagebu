@@ -1,0 +1,411 @@
+openapi: 3.0.1
+info:
+  title: gagebu
+  description: SU - 본인의 소비내역을 기록/관리 하는 가계부 API 서버
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+tags: []
+paths:
+  /api/v1/records:
+    get:
+      tags:
+      - Record API
+      summary: 거래내역 다중 조회 API
+      description: 거래내역 다중 조회 API 입니다.
+      operationId: record-findAll
+      parameters:
+      - name: Authorization
+        in: header
+        description: JWT accessToken
+        required: true
+        schema:
+          type: string
+        example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjEsImlhdCI6MTY2NDMwNDU4NywiZXhwIjoxNjY0MzA2Mzg3fQ.0Qylp5Urxsj8cNKDugY0lF3e-i8mlyEjRAAyZfPgOiAJmeGo7I1sxIbsdSAX0XcMSz9_1mUesHAXU51byzXc2w
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/거래내역 다중조회 응답'
+              examples:
+                record-findAll:
+                  value: "{\r\n  \"records\" : [ {\r\n    \"name\" : \"테스트 이름 - a75f27c5ef\"\
+                    ,\r\n    \"category\" : \"FOOD\",\r\n    \"money\" : 1000,\r\n\
+                    \    \"memo\" : \"테스트 메모 -038788b10f\",\r\n    \"createdAt\" :\
+                    \ \"2022-09-28T03:49:46.983121\",\r\n    \"updatedAt\" : \"2022-09-28T03:49:46.983121\"\
+                    \r\n  }, {\r\n    \"name\" : \"테스트 이름 - dd99eb6c43\",\r\n    \"\
+                    category\" : \"FOOD\",\r\n    \"money\" : 1000,\r\n    \"memo\"\
+                    \ : \"테스트 메모 -091e83ec6c\",\r\n    \"createdAt\" : \"2022-09-28T03:49:46.988121\"\
+                    ,\r\n    \"updatedAt\" : \"2022-09-28T03:49:46.988121\"\r\n  },\
+                    \ {\r\n    \"name\" : \"테스트 이름 - 91c7ba71e0\",\r\n    \"category\"\
+                    \ : \"FOOD\",\r\n    \"money\" : 1000,\r\n    \"memo\" : \"테스트\
+                    \ 메모 -d3b4783f38\",\r\n    \"createdAt\" : \"2022-09-28T03:49:46.990123\"\
+                    ,\r\n    \"updatedAt\" : \"2022-09-28T03:49:46.990123\"\r\n  },\
+                    \ {\r\n    \"name\" : \"테스트 이름 - d054fe1ce8\",\r\n    \"category\"\
+                    \ : \"FOOD\",\r\n    \"money\" : 1000,\r\n    \"memo\" : \"테스트\
+                    \ 메모 -1c01ae9ba7\",\r\n    \"createdAt\" : \"2022-09-28T03:49:46.991122\"\
+                    ,\r\n    \"updatedAt\" : \"2022-09-28T03:49:46.991122\"\r\n  }\
+                    \ ]\r\n}"
+      security:
+      - bearerAuthJWT: []
+    post:
+      tags:
+      - Record API
+      summary: 거래내역 생성 API
+      description: 거래내역을 생성하는 API 입니다.
+      operationId: record-create
+      parameters:
+      - name: Authorization
+        in: header
+        description: JWT accessToken
+        required: true
+        schema:
+          type: string
+        example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjEyLCJpYXQiOjE2NjQzMDQ1ODgsImV4cCI6MTY2NDMwNjM4OH0.ggJntCRxmuEsacXiVTpqZZ6VYEl5295pq4UD8YzP57wn248-g2wrUOcymBZsDYg6w1QKOXXI5uoKBhWD7XDJxg
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/거래내역 생성 요청'
+            examples:
+              record-create:
+                value: "{\r\n  \"name\" : \"테스트 거래\",\r\n  \"category\" : \"SALARY\"\
+                  ,\r\n  \"money\" : 1000000,\r\n  \"memo\" : \"테스트 메모 입니다\"\r\n}"
+      responses:
+        "201":
+          description: "201"
+          headers:
+            Location:
+              description: 생성된 거래내역 URI
+              schema:
+                type: string
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/거래내역 생성 응답'
+              examples:
+                record-create:
+                  value: "{\r\n  \"id\" : 13\r\n}"
+      security:
+      - bearerAuthJWT: []
+  /api/v1/users:
+    post:
+      tags:
+      - User API
+      summary: 회원가입 API
+      description: 회원가입을 요청하는 API 입니다.
+      operationId: user-signup
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/회원가입 요청'
+            examples:
+              user-signup:
+                value: "{\r\n  \"email\" : \"c24154c6ad@test.com\",\r\n  \"password\"\
+                  \ : \"0b7255f5-6121-4279-99cc-4ddbd64ee3f7\"\r\n}"
+      responses:
+        "201":
+          description: "201"
+          headers:
+            Location:
+              description: 회원가입 된 유저 URI
+              schema:
+                type: string
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/회원가입 응답'
+              examples:
+                user-signup:
+                  value: "{\r\n  \"id\" : 15\r\n}"
+  /api/v1/auth/login:
+    post:
+      tags:
+      - User API
+      summary: 로그인 API
+      description: 로그인을 요청하는 API 입니다.
+      operationId: user-login
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/로그인 요청'
+            examples:
+              user-login:
+                value: "{\r\n  \"email\" : \"bd7a5489ce@test.com\",\r\n  \"password\"\
+                  \ : \"0aec9174-9adc-4154-b647-54d8d874b25b\"\r\n}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/로그인 응답'
+              examples:
+                user-login:
+                  value: "{\r\n  \"accessToken\" : \"eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjE0LCJpYXQiOjE2NjQzMDQ1ODgsImV4cCI6MTY2NDMwNjM4OH0.pH2mIOZv0_8l3Uu4YRiWHZ42CVVWgqJHL0bV2MJhnXf1QPAFuPCdwRwUY53P2i3DRB6SGqSCDzX2CyKuWURlYA\"\
+                    \r\n}"
+  /api/v1/records/{recordId}:
+    get:
+      tags:
+      - Record API
+      summary: 거래내역 단건 조회 API
+      description: 거래내역 단건 조회 API 입니다.
+      operationId: record-findOne
+      parameters:
+      - name: recordId
+        in: path
+        description: 거래내역 아이디
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: JWT accessToken
+        required: true
+        schema:
+          type: string
+        example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjYsImlhdCI6MTY2NDMwNDU4OCwiZXhwIjoxNjY0MzA2Mzg4fQ.xPUnFqbxH9oaeeMdxu2EcgXU9cYk5qENJVskjtqmS607jJLlcxLGdvabqgAawZzSaHQma1CCneAi-8OyPLjzMw
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/거래내역 단건조회 응답'
+              examples:
+                record-findOne:
+                  value: "{\r\n  \"name\" : \"테스트 이름 - 5f97efe6b9\",\r\n  \"category\"\
+                    \ : \"FOOD\",\r\n  \"money\" : 1000,\r\n  \"memo\" : \"테스트 메모\
+                    \ -f149950faa\",\r\n  \"createdAt\" : \"2022-09-28T03:49:47.943124\"\
+                    ,\r\n  \"updatedAt\" : \"2022-09-28T03:49:47.943124\"\r\n}"
+      security:
+      - bearerAuthJWT: []
+    delete:
+      tags:
+      - Record API
+      summary: 거래내역 삭제 API
+      description: 거래내역을 삭제하는 API 입니다.
+      operationId: record-delete
+      parameters:
+      - name: recordId
+        in: path
+        description: 거래내역 아이디
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: JWT accessToken
+        required: true
+        schema:
+          type: string
+        example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjEwLCJpYXQiOjE2NjQzMDQ1ODgsImV4cCI6MTY2NDMwNjM4OH0.AWUwTkzwaX1dWl51qHVa10cTxZ0EberKqAbjHpP2ySBoaMZSLkC2QazY0HqmRi-sP_MPHhROvrs6cVcUet_HLQ
+      responses:
+        "204":
+          description: "204"
+      security:
+      - bearerAuthJWT: []
+    patch:
+      tags:
+      - Record API
+      summary: 거래내역 수정 API
+      description: 거래내역을 수정하는 API 입니다.
+      operationId: record-edit
+      parameters:
+      - name: recordId
+        in: path
+        description: 거래내역 아이디
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: JWT accessToken
+        required: true
+        schema:
+          type: string
+        example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjgsImlhdCI6MTY2NDMwNDU4OCwiZXhwIjoxNjY0MzA2Mzg4fQ.293Je-2LfuaoU2G-dmw56LhNVCKMUy-RbWlVxHnOS4SdJN5EUl20hQcDauST8NVssoYvg85x-cd_2ywUoUorgA
+      requestBody:
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/거래내역 수정 요청'
+            examples:
+              record-edit:
+                value: "{\r\n  \"money\" : 1000,\r\n  \"memo\" : \"수정된 메모\"\r\n}"
+      responses:
+        "204":
+          description: "204"
+      security:
+      - bearerAuthJWT: []
+  /api/v1/users/{userId}:
+    get:
+      tags:
+      - User API
+      summary: 유저 조회 API
+      description: 유저를 단일 조회하는 API 입니다.
+      operationId: user-findOne
+      parameters:
+      - name: userId
+        in: path
+        description: 유저 아이디
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: JWT accessToken
+        required: true
+        schema:
+          type: string
+        example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTE9HSU4iLCJ1c2VySWQiOjE2LCJpYXQiOjE2NjQzMDQ1ODksImV4cCI6MTY2NDMwNjM4OX0.KPpT6Z5ZDUf4hJgSSg3cuMYiESJNATd8YjMC6WqeMaVmVBZi22H5zvur6TVmaJmhv7Y6m8938oWXafhbVwaoAA
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/유저 단일 조회 응답'
+              examples:
+                user-findOne:
+                  value: "{\r\n  \"userId\" : 16,\r\n  \"email\" : \"c52812fab2@test.com\"\
+                    \r\n}"
+      security:
+      - bearerAuthJWT: []
+components:
+  schemas:
+    거래내역 다중조회 응답:
+      title: 거래내역 다중조회 응답
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            type: object
+            properties:
+              createdAt:
+                type: string
+                description: 거래내역 생성 일자
+              money:
+                type: number
+                description: 거래내역 금액
+              name:
+                type: string
+                description: 거래내역 이름
+              memo:
+                type: string
+                description: 거래내역 메모
+              category:
+                type: string
+                description: 거래내역 종류
+              updatedAt:
+                type: string
+                description: 거래내역 마지막 수정일자
+    거래내역 생성 응답:
+      title: 거래내역 생성 응답
+      type: object
+      properties:
+        id:
+          type: number
+          description: 생성된 거래내역 아이디
+    로그인 요청:
+      title: 로그인 요청
+      type: object
+      properties:
+        password:
+          type: string
+          description: 로그인 비밀번호
+        email:
+          type: string
+          description: 로그인 이메일
+    회원가입 요청:
+      title: 회원가입 요청
+      type: object
+      properties:
+        password:
+          type: string
+          description: 로그인 비밀번호
+        email:
+          type: string
+          description: 로그인 이메일
+    거래내역 수정 요청:
+      title: 거래내역 수정 요청
+      type: object
+      properties:
+        money:
+          type: number
+          description: 거래내역 금액
+        memo:
+          type: string
+          description: 거래내역 메모
+    로그인 응답:
+      title: 로그인 응답
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: 생성된 유저 액세스 토큰
+    거래내역 단건조회 응답:
+      title: 거래내역 단건조회 응답
+      type: object
+      properties:
+        createdAt:
+          type: string
+          description: 거래내역 생성 일자
+        money:
+          type: number
+          description: 거래내역 금액
+        name:
+          type: string
+          description: 거래내역 이름
+        memo:
+          type: string
+          description: 거래내역 메모
+        category:
+          type: string
+          description: 거래내역 종류
+        updatedAt:
+          type: string
+          description: 거래내역 마지막 수정일자
+    거래내역 생성 요청:
+      title: 거래내역 생성 요청
+      type: object
+      properties:
+        money:
+          type: number
+          description: 거래내역 금액
+        name:
+          type: string
+          description: 거래내역 이름
+        memo:
+          type: string
+          description: 거래내역 메모
+        category:
+          type: string
+          description: 거래내역 종류
+    유저 단일 조회 응답:
+      title: 유저 단일 조회 응답
+      type: object
+      properties:
+        userId:
+          type: number
+          description: 유저 아이디
+        email:
+          type: string
+          description: 유저 이메일
+    회원가입 응답:
+      title: 회원가입 응답
+      type: object
+      properties:
+        id:
+          type: number
+          description: 생성된 유저 아이디
+  securitySchemes:
+    bearerAuthJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
