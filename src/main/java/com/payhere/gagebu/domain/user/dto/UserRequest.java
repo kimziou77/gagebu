@@ -13,7 +13,7 @@ public interface UserRequest {
         String email,
 
         @NotBlank(message = "비밀번호는 비어있을 수 없습니다")
-        @Size(max = 20, message = "비밀번호는 20자 이내로 입력해주세요")
+        @Size(max = 32, message = "비밀번호는 32자 이내로 입력해주세요")
         String password
     ) {
 
@@ -25,7 +25,7 @@ public interface UserRequest {
     record UserLogin(
         @Email(message = "올바른 이메일 형식이 아닙니다.")
         String email,
-        
+
         @NotBlank(message = "비밀번호는 비어있을 수 없습니다")
         @Size(max = 20, message = "비밀번호는 20자 이내로 입력해주세요")
         String password

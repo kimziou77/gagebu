@@ -6,8 +6,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,7 +29,7 @@ class UserApiTest extends IntegrationTest {
         @Test
         @DisplayName("유저 정보 단일 조회")
         void getUserInfo() throws Exception {
-            var password = UUID.randomUUID().toString();
+            var password = "test-passwd";
             var user = makeUserAndSave(password);
             var token = getToken(user.getEmail(), password);
 
