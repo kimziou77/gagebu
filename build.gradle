@@ -27,8 +27,6 @@ ext {
 }
 
 dependencies {
-    // logging aop tmp
-    implementation group: 'org.json', name: 'json', version: '20201115'
 
     // web & security
     implementation 'org.springframework.boot:spring-boot-starter-web'

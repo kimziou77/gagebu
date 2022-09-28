@@ -13,6 +13,7 @@ public enum ErrorMessage {
     USER_NOT_FOUND("해당하는 유저를 찾을 수 없습니다", HttpStatus.NOT_FOUND),
 
     INVALID_INPUT("유효하지 않은 입력값 입니다.", HttpStatus.BAD_REQUEST),
+    INVALID_TYPE("유효하지 않은 타입값 입니다.", HttpStatus.BAD_REQUEST),
     USER_ALREADY_EXIST("해당하는 유저가 이미 존재합니다", HttpStatus.BAD_REQUEST),
 
     ACCESS_DENIED("접근 권한이 없습니다", HttpStatus.FORBIDDEN),
@@ -22,7 +23,7 @@ public enum ErrorMessage {
     INVALID_TOKEN("유효하지 않은 토큰입니다", HttpStatus.UNAUTHORIZED),
     EXPIRED_ACCESS_TOKEN("만료된 액세스 토큰입니다", HttpStatus.UNAUTHORIZED),
 
-    INTERNAL_SERVER_ERROR("서버 에러 입니다", HttpStatus.INTERNAL_SERVER_ERROR);
+    SERVER_ERROR("서버 에러 입니다", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
 
