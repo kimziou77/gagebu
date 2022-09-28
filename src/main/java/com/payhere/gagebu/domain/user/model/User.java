@@ -1,5 +1,7 @@
 package com.payhere.gagebu.domain.user.model;
 
+import static com.google.common.base.Preconditions.*;
+import static com.payhere.gagebu.common.exception.error.ErrorMessage.*;
 import static lombok.AccessLevel.*;
 
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.payhere.gagebu.common.model.BaseEntity;
 import com.payhere.gagebu.domain.user.exception.UserNoPermissionException;
 
+import io.jsonwebtoken.lang.Strings;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +35,7 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
 
+    @Column(length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -39,15 +43,23 @@ public class User extends BaseEntity {
 
     @Builder
     public User(Long id, String email, String password, UserRole userRole) {
-
         this.id = id;
-        this.email = email;
-        this.password = password;
         this.userRole = userRole;
+        setEmail(email);
+        setPassword(password);
     }
 
     public static User of(Long id) {
         return User.builder().id(id).build();
+    }
+
+    private void setEmail(String email) {
+        this.email = email;
+    }
+
+    private void setPassword(String password) {
+        checkArgument(Strings.hasText(password) && password.length() <= 20, INVALID_INPUT);
+        this.password = password;
     }
 
     public void validatePassword(PasswordEncoder encoder, String password) {

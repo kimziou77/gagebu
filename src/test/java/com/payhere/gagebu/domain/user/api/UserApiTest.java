@@ -19,6 +19,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.payhere.gagebu.template.IntegrationTest;
 
+@DisplayName("User 통합테스트")
 class UserApiTest extends IntegrationTest {
 
     @Nested

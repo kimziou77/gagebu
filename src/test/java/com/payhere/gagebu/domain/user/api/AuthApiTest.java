@@ -7,8 +7,6 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,6 +20,7 @@ import com.epages.restdocs.apispec.Schema;
 import com.payhere.gagebu.domain.user.dto.UserRequest.UserCreate;
 import com.payhere.gagebu.template.IntegrationTest;
 
+@DisplayName("Auth 통합테스트")
 class AuthApiTest extends IntegrationTest {
 
     @Nested
@@ -33,7 +32,7 @@ class AuthApiTest extends IntegrationTest {
         @Test
         @DisplayName("회원가입 - 이메일과 비밀번호 입력")
         void signUp() throws Exception {
-            var password = UUID.randomUUID().toString();
+            var password = "Test비밀번호";
 
             var user = makeUser(password);
             var dto = UserCreate.builder()
@@ -81,7 +80,7 @@ class AuthApiTest extends IntegrationTest {
         @Test
         @DisplayName("로그인 - 이메일과 비밀번호 입력")
         void login() throws Exception {
-            String password = UUID.randomUUID().toString();
+            String password = "Test비밀번호";
             var user = makeUserAndSave(password);
 
             var dto = UserCreate.builder()
