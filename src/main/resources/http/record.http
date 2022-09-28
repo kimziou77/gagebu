@@ -1,0 +1,46 @@
+### 1. 거래내역 생성
+POST {{host}}/api/v1/records
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "OO치킨",
+  "category": "FOOD",
+  "money": 1000,
+  "memo": "OO치킨 맛있다"
+}
+> {% client.global.set("recordId", response.body.id); %}
+
+### 2. 거래내역 단건 조회
+GET {{host}}/api/v1/records/{{recordId}}
+Authorization: Bearer {{accessToken}}
+
+### 3. 거래내역 다중 조회
+GET {{host}}/api/v1/records
+Authorization: Bearer {{accessToken}}
+
+### 4. 거래내역 수정
+PATCH {{host}}/api/v1/records/{{recordId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "money": 1500,
+  "memo": "XX치킨이 더 맛있다"
+}
+
+### 5. 거래내역 단건 조회
+GET {{host}}/api/v1/records/{{recordId}}
+Authorization: Bearer {{accessToken}}
+
+### 6. 거래내역 삭제
+DELETE {{host}}/api/v1/records/{{recordId}}
+Authorization: Bearer {{accessToken}}
+
+### 7. 거래내역 복구 (준비중)
+
+
+### 8. 거래내역 다중 조회
+GET {{host}}/api/v1/records
+Authorization: Bearer {{accessToken}}
+
