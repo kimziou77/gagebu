@@ -115,7 +115,44 @@ class RecordApiTest extends IntegrationTest {
                 )
             );
         }
+    }
 
+    @Nested
+    @DisplayName("거래내역 복구")
+    class RestoreRecordTest {
+
+        private final String endpoint = "/api/v1/records/{recordId}";
+
+        @Test
+        @DisplayName("삭제한 내역은 언제든지 다시 복구 할 수 있어야 합니다.")
+        void restoreRecordTest() throws Exception {
+            var password = "password";
+            var user = makeUserAndSave(password);
+            var record = makeRecordAndSave(user);
+            var token = getToken(user.getEmail(), password);
+
+            mockMvc.perform(put(endpoint, record.getId())
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .andExpect(status().isOk())
+                .andDo(documentation());
+        }
+
+        private RestDocumentationResultHandler documentation() {
+            return MockMvcRestDocumentationWrapper.document("record-restore",
+                ResourceSnippetParameters.builder()
+                    .tag("Record API")
+                    .summary("거래내역 복구 API")
+                    .description("거래내역을 복구하는 API 입니다.")
+                    .requestSchema(Schema.schema("거래내역 복구 요청"))
+                    .responseSchema(Schema.schema("거래내역 복구 응답")),
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                tokenRequestHeader(),
+                pathParameters(
+                    parameterWithName("recordId").description("거래내역 아이디")
+                )
+            );
+        }
     }
 
     @Nested

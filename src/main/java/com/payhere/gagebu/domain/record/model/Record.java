@@ -2,6 +2,8 @@ package com.payhere.gagebu.domain.record.model;
 
 import static lombok.AccessLevel.*;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +40,9 @@ public class Record extends BaseEntity {
     private User user;
 
     @Column(nullable = false)
-    private boolean deleted;
+    private boolean deleted = false;
+
+    private LocalDateTime deletedAt;
 
     @Builder
     public Record(Long id, String name, Integer money, String memo, User user, boolean deleted) {
@@ -56,6 +60,16 @@ public class Record extends BaseEntity {
 
     public void editMemo(String memo) {
         this.memo = memo;
+    }
+
+    public void delete() {
+        this.deleted = true;
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public void restore() {
+        this.deleted = false;
+        this.deletedAt = null;
     }
 
     public void validateUserPermission(Long userId) {
