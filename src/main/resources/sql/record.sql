@@ -3,7 +3,6 @@ create table record
     id         bigint       not null primary key,
     created_at datetime(6)  null,
     updated_at datetime(6)  null,
-    category   varchar(255) null,
     deleted    bit          not null,
     memo       varchar(255) null,
     money      int          null,
