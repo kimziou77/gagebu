@@ -3,12 +3,14 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
     id 'com.epages.restdocs-api-spec' version '0.16.2'
+    id 'com.google.cloud.tools.jib' version '3.2.1'
     id 'java'
 }
 
 group = 'com.payhere'
 version = '0.0.1'
 sourceCompatibility = '17'
+project.ext.host = ("$System.env.SERVER_NAME" == 'null') ? 'http://localhost:8080' : "$System.env.SERVER_NAME"
 
 configurations {
     compileOnly {
@@ -72,14 +74,47 @@ tasks.named('asciidoctor') {
     dependsOn test
 }
 openapi3 {
-    server = "http://localhost:8080"
+    println("target server : $project.host")
+    server = project.host
     title = 'gagebu'
     description = 'SU - 본인의 소비내역을 기록/관리 하는 가계부 API 서버'
     version = project.version.toString().toUpperCase()
     format = 'yaml'
 }
+
 task copyDocument(type: Copy) {
     dependsOn("openapi3")
     from file("$buildDir/api-spec/openapi3.yaml")
     into file("src/main/resources/static/docs/.")
+}
+
+jib {
+    from {
+        image = "amazoncorretto:17.0.4-al2"
+        platforms {
+            platform {
+                architecture = "arm64"
+                os = "linux"
+            }
+            platform {
+                architecture = "amd64"
+                os = "linux"
+            }
+        }
+    }
+    to {
+        image = "kimziou77/${project.name}"
+        tags = ["${project.version.toString().toLowerCase()}"]
+    }
+    container {
+        environment = ["PROFILE": "local"]
+        jvmFlags = ['-Xms512m', '-Dspring.profiles.active=${PROFILE}']
+    }
+}
+
+gradle.taskGraph.beforeTask { Task task ->
+    println "executing $task ... *** start ***"
+}
+gradle.taskGraph.afterTask { Task task ->
+    println "executing $task ... ***  end  ***"
 }
