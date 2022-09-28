@@ -9,7 +9,6 @@ public interface RecordResponse {
 
     record RecordInfo(
         String name,
-        String category,
         Integer money,
         String memo,
         LocalDateTime createdAt,

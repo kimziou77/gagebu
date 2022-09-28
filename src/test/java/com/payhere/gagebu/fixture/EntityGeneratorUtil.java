@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.payhere.gagebu.common.vo.Money;
-import com.payhere.gagebu.domain.record.model.Category;
 import com.payhere.gagebu.domain.record.model.Record;
 import com.payhere.gagebu.domain.record.model.Record.RecordBuilder;
 import com.payhere.gagebu.domain.user.model.User;
@@ -45,14 +43,13 @@ public abstract class EntityGeneratorUtil {
     }
 
     private static RecordBuilder basicRecordBuilder(User user) {
-        String name = "테스트 이름 - " + UUID.randomUUID().toString().substring(26);
-        String memo = "테스트 메모 -" + UUID.randomUUID().toString().substring(26);
+        String name = "테스트 이름-" + UUID.randomUUID().toString().substring(26);
+        String memo = "테스트 메모-" + UUID.randomUUID().toString().substring(26);
 
         return Record.builder()
             .name(name)
-            .money(new Money(1000))
+            .money(1000)
             .memo(memo)
-            .category(Category.FOOD)
             .user(user)
             .deleted(false);
     }

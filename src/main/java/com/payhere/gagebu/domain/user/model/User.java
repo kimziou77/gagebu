@@ -32,18 +32,18 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
 
-    private String password;
+    @Column(length = 200)
+    private String password; /* encoded password */
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     @Builder
     public User(Long id, String email, String password, UserRole userRole) {
-
         this.id = id;
+        this.userRole = userRole;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
     }
 
     public static User of(Long id) {
