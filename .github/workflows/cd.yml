@@ -3,6 +3,7 @@ name: cd
 on:
   push:
     branches:
+      - "develop*"
       - "main"
 
 jobs:
@@ -45,6 +46,7 @@ jobs:
       - name: Execute Gradle build
         run: |
           export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
-          
+          export DB_URL=${{ secrets.DB_URL}}
+          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           ./gradlew jib
 

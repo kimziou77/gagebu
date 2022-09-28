@@ -10,6 +10,7 @@ security:
     permit-all:
       ALL:
         - /
+        - /docs/**
       GET: [ ]
       POST: [ ]
 
@@ -20,6 +21,8 @@ cors:
     origin:
       - http://localhost:3000
       - http://localhost:8080
+      - http://kimyo.ga
+      - http://34.125.126.248
 
 jwt:
   issuer: gagebu
