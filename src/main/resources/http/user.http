@@ -1,3 +1,6 @@
+### 0. Health Check
+GET {{host}}
+
 ### 1. 회원가입
 POST {{host}}/api/v1/users
 Content-Type: application/json
