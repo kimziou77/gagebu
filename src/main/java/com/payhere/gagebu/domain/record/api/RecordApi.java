@@ -35,7 +35,7 @@ public class RecordApi {
     @ResponseStatus(HttpStatus.CREATED)
     public RecordCreated createRecord(@Valid @RequestBody RecordCreate req, @LoginUser Long userId, HttpServletResponse response) {
         var created = recordService.createRecord(req, userId);
-        response.setHeader("location", generatedUri(created.id()).toString());
+        response.setHeader("Location", generatedUri(created.id()).toString());
         return created;
     }
 

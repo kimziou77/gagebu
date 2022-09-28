@@ -20,9 +20,9 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.payhere.gagebu.domain.record.dto.RecordRequest.RecordCreate;
 import com.payhere.gagebu.domain.record.dto.RecordRequest.RecordEdit;
-import com.payhere.gagebu.domain.record.model.Category;
 import com.payhere.gagebu.template.IntegrationTest;
 
+@DisplayName("Record 통합테스트")
 class RecordApiTest extends IntegrationTest {
 
     @Nested
@@ -40,7 +40,6 @@ class RecordApiTest extends IntegrationTest {
 
             var dto = RecordCreate.builder()
                 .name("테스트 거래")
-                .category(Category.SALARY.toString())
                 .money(1_000_000)
                 .memo("테스트 메모 입니다")
                 .build();
@@ -69,7 +68,6 @@ class RecordApiTest extends IntegrationTest {
                 ),
                 requestFields(
                     fieldWithPath("name").type(JsonFieldType.STRING).description("거래내역 이름"),
-                    fieldWithPath("category").type(JsonFieldType.STRING).description("거래내역 종류"),
                     fieldWithPath("money").type(JsonFieldType.NUMBER).description("거래내역 금액"),
                     fieldWithPath("memo").type(JsonFieldType.STRING).description("거래내역 메모")
                 ),
@@ -185,8 +183,7 @@ class RecordApiTest extends IntegrationTest {
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(record.getName()))
-                .andExpect(jsonPath("$.category").value(record.getCategory().toString()))
-                .andExpect(jsonPath("$.money").value(record.getMoney().getValue()))
+                .andExpect(jsonPath("$.money").value(record.getMoney()))
                 .andExpect(jsonPath("$.memo").value(record.getMemo()))
                 .andDo(documentation());
         }
@@ -207,7 +204,6 @@ class RecordApiTest extends IntegrationTest {
                 ),
                 responseFields(
                     fieldWithPath("name").description("거래내역 이름"),
-                    fieldWithPath("category").description("거래내역 종류"),
                     fieldWithPath("money").description("거래내역 금액"),
                     fieldWithPath("memo").description("거래내역 메모"),
                     fieldWithPath("createdAt").description("거래내역 생성 일자"),
@@ -254,7 +250,6 @@ class RecordApiTest extends IntegrationTest {
                 tokenRequestHeader(),
                 responseFields(
                     fieldWithPath("records[].name").description("거래내역 이름"),
-                    fieldWithPath("records[].category").description("거래내역 종류"),
                     fieldWithPath("records[].money").description("거래내역 금액"),
                     fieldWithPath("records[].memo").description("거래내역 메모"),
                     fieldWithPath("records[].createdAt").description("거래내역 생성 일자"),
