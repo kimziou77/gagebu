@@ -43,7 +43,15 @@ public class RecordService {
         var record = recordRepository.findById(recordId)
             .orElseThrow(RecordNotFoundException::new);
         record.validateUserPermission(userId);
-        recordRepository.deleteById(recordId);
+        record.delete();
+    }
+
+    @Transactional
+    public void restoreRecord(Long recordId, Long userId) {
+        var record = recordRepository.findById(recordId)
+            .orElseThrow(RecordNotFoundException::new);
+        record.validateUserPermission(userId);
+        record.restore();
     }
 
     public RecordInfo findDetailRecord(Long recordId, Long userId) {
@@ -60,4 +68,5 @@ public class RecordService {
 
         return RecordInfoList.builder().records(records).build();
     }
+
 }

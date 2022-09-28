@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,6 +44,12 @@ public class RecordApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRecord(@PathVariable Long recordId, @LoginUser Long userId) {
         recordService.deleteRecord(recordId, userId);
+    }
+
+    @PutMapping("/records/{recordId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void restoreRecord(@PathVariable Long recordId, @LoginUser Long userId) {
+        recordService.restoreRecord(recordId, userId);
     }
 
     @PatchMapping("/records/{recordId}")
