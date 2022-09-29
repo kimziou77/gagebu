@@ -27,7 +27,6 @@ ext {
 }
 
 dependencies {
-
     // web & security
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -72,6 +71,8 @@ tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+//restdocs -> swagger
 openapi3 {
     println("target server : $project.host")
     server = project.host
@@ -80,11 +81,25 @@ openapi3 {
     version = project.version.toString().toUpperCase()
     format = 'yaml'
 }
-
 task copyDocument(type: Copy) {
     dependsOn("openapi3")
     from file("$buildDir/api-spec/openapi3.yaml")
     into file("src/main/resources/static/docs/.")
+}
+
+// add submodule
+processResources.dependsOn('copySubmodule')
+task copySubmodule(type: Copy) {
+    copy {
+        from './gagebu-submodule'
+        include "application-security.yml"
+        into 'src/main/resources'
+    }
+    copy {
+        from './gagebu-submodule'
+        include "application-security.yml"
+        into 'src/test/resources'
+    }
 }
 
 jib {
