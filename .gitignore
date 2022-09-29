@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## Custome ###
+src/**/resources/application-security.yml
