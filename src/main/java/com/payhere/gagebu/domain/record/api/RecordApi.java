@@ -40,6 +40,12 @@ public class RecordApi {
         return created;
     }
 
+    @PatchMapping("/records/{recordId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editRecord(@PathVariable Long recordId, @LoginUser Long userId, @Valid @RequestBody RecordRequest.RecordEdit req) {
+        recordService.editRecord(recordId, userId, req);
+    }
+
     @DeleteMapping("/records/{recordId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRecord(@PathVariable Long recordId, @LoginUser Long userId) {
@@ -50,12 +56,6 @@ public class RecordApi {
     @ResponseStatus(HttpStatus.OK)
     public void restoreRecord(@PathVariable Long recordId, @LoginUser Long userId) {
         recordService.restoreRecord(recordId, userId);
-    }
-
-    @PatchMapping("/records/{recordId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void editRecord(@PathVariable Long recordId, @LoginUser Long userId, @Valid @RequestBody RecordRequest.RecordEdit req) {
-        recordService.editRecord(recordId, userId, req);
     }
 
     @GetMapping("/records/{recordId}")

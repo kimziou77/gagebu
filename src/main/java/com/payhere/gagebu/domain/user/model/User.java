@@ -35,19 +35,26 @@ public class User extends BaseEntity {
     @Column(length = 200)
     private String password; /* encoded password */
 
+    private boolean verified = false;
+
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
     @Builder
-    public User(Long id, String email, String password, UserRole userRole) {
+    public User(Long id, String email, String password, boolean verified, UserRole userRole) {
         this.id = id;
-        this.userRole = userRole;
         this.email = email;
         this.password = password;
+        this.verified = verified;
+        this.userRole = userRole;
     }
 
     public static User of(Long id) {
         return User.builder().id(id).build();
+    }
+
+    public void verify() {
+        this.verified = true;
     }
 
     public void validatePassword(PasswordEncoder encoder, String password) {
