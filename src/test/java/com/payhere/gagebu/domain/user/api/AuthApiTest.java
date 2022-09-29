@@ -1,7 +1,6 @@
 package com.payhere.gagebu.domain.user.api;
 
 import static com.payhere.gagebu.fixture.EntityGeneratorUtil.*;
-import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -42,8 +41,7 @@ class AuthApiTest extends IntegrationTest {
 
             mockMvc.perform(post(endpoint).content(toJson(dto))
                     .contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").exists())
+                .andExpect(status().isNoContent())
                 .andDo(documentation());
         }
 
@@ -57,15 +55,9 @@ class AuthApiTest extends IntegrationTest {
                     .responseSchema(Schema.schema("회원가입 응답")),
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                responseHeaders(
-                    headerWithName("Location").description("회원가입 된 유저 URI")
-                ),
                 requestFields(
                     fieldWithPath("email").type(JsonFieldType.STRING).description("로그인 이메일"),
                     fieldWithPath("password").type(JsonFieldType.STRING).description("로그인 비밀번호")
-                ),
-                responseFields(
-                    fieldWithPath("id").description("생성된 유저 아이디")
                 )
             );
         }

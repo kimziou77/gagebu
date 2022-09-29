@@ -39,6 +39,7 @@ public abstract class EntityGeneratorUtil {
         return User.builder()
             .email(email)
             .password(passwordEncoder.encode(password))
+            .verified(true)
             .userRole(UserRole.LOGIN);
     }
 
