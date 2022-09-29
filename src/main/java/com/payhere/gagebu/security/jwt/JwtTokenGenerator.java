@@ -49,8 +49,13 @@ public class JwtTokenGenerator {
             .compact();
     }
 
-    public String createAccessToken(long payload, String role) {
-        Map<String, Object> claims = Map.of("userId", payload, "role", role);
+    public String createEmailAuthToken(Long userId, String email) {
+        Map<String, Object> claims = Map.of("userId", userId, "email", email);
+        return createToken(claims, accessTokenValidTime);
+    }
+
+    public String createAccessToken(long userId, String role) {
+        Map<String, Object> claims = Map.of("userId", userId, "role", role);
         return createToken(claims, accessTokenValidTime);
     }
 

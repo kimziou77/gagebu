@@ -1,21 +1,21 @@
 package com.payhere.gagebu.domain.user.api;
 
-import static com.payhere.gagebu.common.util.ApiUtil.*;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.payhere.gagebu.domain.user.dto.UserRequest.UserCreate;
 import com.payhere.gagebu.domain.user.dto.UserRequest.UserLogin;
-import com.payhere.gagebu.domain.user.dto.UserResponse.UserCreated;
 import com.payhere.gagebu.domain.user.dto.UserResponse.UserLoginToken;
 import com.payhere.gagebu.domain.user.service.AuthService;
 
@@ -28,23 +28,34 @@ public class AuthApi {
 
     private final AuthService authService;
 
-    // 회원가입 -> 유저 생성
     @PostMapping("/users")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserCreated signUp(@Valid @RequestBody UserCreate userCreate, HttpServletResponse response) {
-        var created = authService.signUp(userCreate);
-        response.setHeader("Location", generatedUri(created.id()).toString());
-        return created;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void signUp(@Valid @RequestBody UserCreate userCreate) {
+        var token = authService.signUp(userCreate);
+        var url = ServletUriComponentsBuilder.fromCurrentRequest().toUriString();
+        authService.sendAuthEmail(userCreate.email(), url, token);
     }
 
-    // 로그인 -> 토큰 발급
+    @GetMapping("/users")
+    @ResponseStatus(HttpStatus.OK)
+    public String verifyAuth(@PathParam(value = "token") String token, HttpServletResponse response) {
+        var userId = authService.verifyUser(token);
+
+        response.setHeader("Location", ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(userId)
+            .toUri()
+            .toString()
+        );
+        return "인증 완료되었습니다";
+    }
+
     @PostMapping("/auth/login")
     @ResponseStatus(HttpStatus.OK)
     public UserLoginToken login(@Valid @RequestBody UserLogin user) {
         return authService.login(user);
     }
 
-    // 로그아웃 -> ?
     @DeleteMapping("/auth/logout")
     @ResponseStatus(HttpStatus.OK)
     public String logout() {

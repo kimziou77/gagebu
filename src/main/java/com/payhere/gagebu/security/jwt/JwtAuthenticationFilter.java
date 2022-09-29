@@ -30,8 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         var uri = request.getRequestURI();
         var httpMethod = request.getMethod();
-        return uri.endsWith("login") || uri.endsWith("logout")
-            || (uri.endsWith("users") && httpMethod.equalsIgnoreCase("POST"));
+        return uri.endsWith("login") || uri.endsWith("logout") || uri.endsWith("users");
     }
 
     @Override
