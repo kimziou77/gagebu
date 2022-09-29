@@ -1,1 +1,18 @@
-# 가계부
+# Gagebu
+
+본인의 소비내역을 기록/관리 하는 가계부 API 서버
+
+## [가계부 REST API 데모서버](http://kimyo.ga)
+
+카테고리 | 사용 툴 -- | -- OS | Ubuntu 18.04 언어 | Java JDK 17 프레임워크 | Spring Boot 2.7.4 빌드 | Gradle 7.5 DB | mysql 5.7, H2 ORM
+| Data JPA (Hibernate)
+문서화 | RestDocs + Swagger 테스트 | Junit5, Mockito 보안 | Spring Security DevOps| Github Actions, GCP, Docker
+
+### 구현사항
+
+- soft delete
+- 이메일 인증
+- 서브모듈 적용
+- 데모서버 배포
+- docker-compose
+- LoginUser Argument Resolver
