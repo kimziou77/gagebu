@@ -110,7 +110,18 @@ jib {
         jvmFlags = ['-Xms512m', '-Dspring.profiles.active=${PROFILE}']
     }
 }
-
+task copyPrivate(type: Copy) {
+    copy {
+        from './gagebu-submodule'
+        include "application-security.yml"
+        into 'src/main/resources'
+    }
+    copy {
+        from './gagebu-submodule'
+        include "application-security.yml"
+        into 'src/test/resources'
+    }
+}
 gradle.taskGraph.beforeTask { Task task ->
     println "executing $task ... *** start ***"
 }
