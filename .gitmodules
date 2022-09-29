@@ -1,0 +1,4 @@
+[submodule "gagebu-submodule"]
+	path = gagebu-submodule
+	url = https://github.com/kimyo-study/gagebu-submodule.git
+    branch = main
