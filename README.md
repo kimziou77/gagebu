@@ -8,10 +8,10 @@
 
 <img src="https://user-images.githubusercontent.com/41179265/193021828-1ed6e7d8-b268-4fea-b681-5bf569d67e40.png" width="400px" />
 
-### 저장소 사용 방법
-
+## 저장소 사용 방법
 ```
 git clone https://github.com/kimziou77/gagebu.git
+git submodule update --init --recursive
 cd gagebu
 docker-compose up -d
 ```
@@ -24,6 +24,9 @@ docker-compose up -d
 - 데모서버 배포
 - docker-compose
 - LoginUser Argument Resolver
+
+### 이메일 인증
+![image](https://user-images.githubusercontent.com/41179265/196014384-2652b739-c786-46f5-9f78-98dc5dca056b.png)
 
 ### 기술스택
 
