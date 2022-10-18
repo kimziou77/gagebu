@@ -2,7 +2,7 @@
 
 본인의 소비내역을 기록/관리 하는 가계부 API 서버
 
-## [가계부 REST API 데모서버](http://kimyo.ga)
+## [가계부 REST API 데모서버 (Close)]()
 
 ### ERD
 
